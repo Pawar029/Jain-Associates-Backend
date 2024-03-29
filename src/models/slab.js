@@ -2,17 +2,32 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 
 const slabSchema = new mongoose.Schema({
-    name : {
+
+    slab_name : {
         type:String,
-        required:true,
-        minlength:3
+        required:true
     },
-    number : {
+    slab_type : {
+        type:String,
+        required:true
+    },
+    noOfSameSlab : {
+        type:Number,
+        required:true
+    },
+    noOfCement : {
         type:Number,
         required:true,
-        minlength : 5,
-        maxlength : 11
-    }
+    },
+    volSand : {
+        type:Number,
+        required:true,
+    },
+    volAggregate : {
+        type:Number,
+        required:true,
+    },
+
 })
 
 const slab = new mongoose.model('slab', slabSchema);
