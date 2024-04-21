@@ -1,5 +1,5 @@
 
-const slab = require("../models/slab");
+const stair = require("../models/stair");
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
@@ -8,9 +8,9 @@ app.use(bodyParser.json());
 const cors = require('cors');
 app.use(cors());
 
-function pushSlabController(req, res) {
-
-    const user = new slab(req.body);
+function pushStairController(req, res) {
+    console.log(req.body);
+    const user = new stair(req.body);
     user.save().then(() => {
         res.send(user);
     }).catch((e) => {
@@ -18,10 +18,10 @@ function pushSlabController(req, res) {
     })
 }
 
-async function getSlabController(req,res) {
+async function getStairController(req,res) {
     // console.log("hello");
     try{
-        const data = await slab.find();
+        const data = await stair.find();
         res.send(data);
     }catch(e){
         res.send("show error");
@@ -30,11 +30,10 @@ async function getSlabController(req,res) {
     }       
 }
 
-async function deleteSlabController(req,res) {
-    // await slab.deleteMany({ });
+async function deleteStairController(req,res) {
 
     try{
-        const deleteddata = await slab.findByIdAndDelete(req.params.id);
+        const deleteddata = await stair.findByIdAndDelete(req.params.id);
         if(!req.params.id){
             return res.status(400).send();
         }
@@ -46,9 +45,9 @@ async function deleteSlabController(req,res) {
     } 
 }
 
-async function updateSlabController(req,res) {
+async function updateStairController(req,res) {
     try{
-        const updateddata = await slab.findByIdAndUpdate(req.params.id, req.body, {new:true});
+        const updateddata = await stair.findByIdAndUpdate(req.params.id, req.body, {new:true});
         if(!req.params.id){
             return res.status(400).send();
         }
@@ -59,10 +58,10 @@ async function updateSlabController(req,res) {
     } 
 }
 
-module.exports.pushSlabController = pushSlabController;
-module.exports.getSlabController = getSlabController;
-module.exports.deleteSlabController = deleteSlabController;
-module.exports.updateSlabController = updateSlabController;
+module.exports.pushStairController = pushStairController;
+module.exports.getStairController = getStairController;
+module.exports.deleteStairController = deleteStairController;
+module.exports.updateStairController = updateStairController;
 
 
 

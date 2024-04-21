@@ -1,5 +1,5 @@
 
-const slab = require("../models/slab");
+const beam = require("../models/beam");
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
@@ -8,9 +8,9 @@ app.use(bodyParser.json());
 const cors = require('cors');
 app.use(cors());
 
-function pushSlabController(req, res) {
+function pushBeamController(req, res) {
 
-    const user = new slab(req.body);
+    const user = new beam(req.body);
     user.save().then(() => {
         res.send(user);
     }).catch((e) => {
@@ -18,10 +18,10 @@ function pushSlabController(req, res) {
     })
 }
 
-async function getSlabController(req,res) {
+async function getBeamController(req,res) {
     // console.log("hello");
     try{
-        const data = await slab.find();
+        const data = await beam.find();
         res.send(data);
     }catch(e){
         res.send("show error");
@@ -30,11 +30,11 @@ async function getSlabController(req,res) {
     }       
 }
 
-async function deleteSlabController(req,res) {
+async function deleteBeamController(req,res) {
     // await slab.deleteMany({ });
 
     try{
-        const deleteddata = await slab.findByIdAndDelete(req.params.id);
+        const deleteddata = await beam.findByIdAndDelete(req.params.id);
         if(!req.params.id){
             return res.status(400).send();
         }
@@ -46,9 +46,9 @@ async function deleteSlabController(req,res) {
     } 
 }
 
-async function updateSlabController(req,res) {
+async function updateBeamController(req,res) {
     try{
-        const updateddata = await slab.findByIdAndUpdate(req.params.id, req.body, {new:true});
+        const updateddata = await beam.findByIdAndUpdate(req.params.id, req.body, {new:true});
         if(!req.params.id){
             return res.status(400).send();
         }
@@ -59,10 +59,10 @@ async function updateSlabController(req,res) {
     } 
 }
 
-module.exports.pushSlabController = pushSlabController;
-module.exports.getSlabController = getSlabController;
-module.exports.deleteSlabController = deleteSlabController;
-module.exports.updateSlabController = updateSlabController;
+module.exports.pushBeamController = pushBeamController;
+module.exports.getBeamController = getBeamController;
+module.exports.deleteBeamController = deleteBeamController;
+module.exports.updateBeamController = updateBeamController;
 
 
 
