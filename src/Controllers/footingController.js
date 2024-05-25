@@ -1,5 +1,6 @@
 
 const footing = require("../models/footing");
+const clientlogin = require("../models/loginClient");
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
@@ -21,8 +22,14 @@ function pushFootingController(req, res) {
 async function getFootingController(req,res) {
     // console.log("hello");
     try{
-        const data = await footing.find();
-        res.send(data);
+        const user = await clientlogin.findOne();
+        if(user){
+            const data = await footing.find({
+                clientName: user.name,
+                clientNumber: user.number
+            });
+            res.send(data);
+        }
     }catch(e){
         res.send("show error");
         res.send(e);

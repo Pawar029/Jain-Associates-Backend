@@ -1,5 +1,6 @@
 
 const slab = require("../models/slab");
+const clientlogin = require("../models/loginClient");
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
@@ -18,17 +19,73 @@ function pushSlabController(req, res) {
     })
 }
 
-async function getSlabController(req,res) {
-    // console.log("hello");
-    try{
-        const data = await slab.find();
-        res.send(data);
-    }catch(e){
-        res.send("show error");
-        res.send(e);
-        res.status(500).send("Internal Server Error");
-    }       
+// async function getSlabController(req,res) {
+//     // console.log("hello");
+//     try{
+//         const user = await clientlogin.findOne();
+//         // const data = await slab.find();
+//         if(!user){
+//             return res.json({user,success:false, message:"No Client is Loged in Please do Log in"});
+//             console.log("here is no user")
+//         }
+//         else{
+//             console.log("here is user")
+//         }
+//         const data = await slab.find({
+//             clientName: user.name,
+//             clientNumber: user.number
+//         });
+//         // console.log(data);  
+//         res.send(data);
+//     }catch(e){   
+//         res.send("show error");
+//         res.send(e);
+//         res.status(500).send("Internal Server Error");
+//     }       
+// }
+
+async function getSlabController(req, res) {
+    try {
+        const user = await clientlogin.findOne();
+        // if (!user) {
+        //     console.log("No user is logged in");
+        //     return res.json({
+        //         success: false,
+        //         message: "No Client is Logged in. Please log in."
+        //     });
+        // } else {
+        //     console.log("User is logged in");
+        // }
+        if(user){
+            const data = await slab.find({
+                clientName: user.name,
+                clientNumber: user.number
+            });
+            res.send(data);
+        }
+        
+
+        // if (data.length === 0) {
+        //     return res.json({
+        //         success: false,
+        //         message: "No data found for the logged in client."
+        //     });
+        // }
+
+        // res.send(data);
+        // return res.json({
+        //     success: true,
+        //     data
+        // });
+    } catch (e) {
+        console.error("Error: ", e);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
 }
+
 
 async function deleteSlabController(req,res) {
     // await slab.deleteMany({ });

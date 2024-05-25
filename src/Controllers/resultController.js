@@ -8,6 +8,7 @@ const beam = require("../models/beam");
 const column = require("../models/column");
 const footing = require("../models/footing");
 const stair = require("../models/stair");
+const clientlogin = require("../models/loginClient");
 const express = require("express");
 const app = express();
 app.use(express.json());
@@ -246,7 +247,12 @@ function calculateStairSteel(data){
 // Patch Api for Slab
 async function pushSlabResultController(req, res) { 
     try{
-        const data = await slab.find();
+        const user = await clientlogin.findOne();
+
+        const data = await slab.find({
+            clientName: user.name,
+            clientNumber: user.number
+        });
         const ans = calculateResult(data);
         const answer = {
             slabCement:ans.cement,
@@ -297,7 +303,13 @@ async function getSlabResultController(req,res) {
 // Patch Api for Beam
 async function pushBeamResultController(req, res) { 
     try{
-        const data = await beam.find();
+        const user = await clientlogin.findOne();
+
+        const data = await beam.find({
+            clientName: user.name,
+            clientNumber: user.number
+        });
+        // const data = await beam.find();
         const ans = calculateResult(data);
         const answer = {
             beamCement:ans.cement,
@@ -332,12 +344,18 @@ async function getBeamResultController(req,res) {
     }       
 }
 
-
+ 
 
 // Patch Api for Column
 async function pushColumnResultController(req, res) { 
     try{
-        const data = await column.find();
+        const user = await clientlogin.findOne();
+
+        const data = await column.find({
+            clientName: user.name,
+            clientNumber: user.number
+        });
+        // const data = await column.find();
         const ans = calculateResult(data);
         const answer = {
             columnCement:ans.cement,
@@ -376,7 +394,13 @@ async function getColumnResultController(req,res) {
 // Patch Api for Footing
 async function pushFootingResultController(req, res) { 
     try{
-        const data = await footing.find();
+        const user = await clientlogin.findOne();
+
+        const data = await footing.find({
+            clientName: user.name,
+            clientNumber: user.number
+        });
+        // const data = await footing.find();
         const ans = calculateResult(data);
         const answer = {
             footingCement:ans.cement,
@@ -415,7 +439,13 @@ async function getFootingResultController(req,res) {
 // Patch Api for StairCase
 async function pushStairResultController(req, res) { 
     try{
-        const data = await stair.find();
+        const user = await clientlogin.findOne();
+
+        const data = await stair.find({
+            clientName: user.name,
+            clientNumber: user.number
+        });
+        // const data = await stair.find();
         const ans = calculateResult(data);
         const answer = {
             stairCement:ans.cement,
@@ -434,7 +464,7 @@ async function pushStairResultController(req, res) {
         res.send("show error");
         res.send(e);
         res.status(500).send("Internal Server Error");
-    }       
+    }               
 }
  
 // Get API for StairCase

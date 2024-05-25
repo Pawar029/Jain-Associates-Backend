@@ -1,5 +1,6 @@
 
 const stair = require("../models/stair");
+const clientlogin = require("../models/loginClient");
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
@@ -21,8 +22,14 @@ function pushStairController(req, res) {
 async function getStairController(req,res) {
     // console.log("hello");
     try{
-        const data = await stair.find();
-        res.send(data);
+        const user = await clientlogin.findOne();
+        if(user){
+            const data = await stair.find({
+                clientName: user.name,
+                clientNumber: user.number
+            });
+            res.send(data);
+        }
     }catch(e){
         res.send("show error");
         res.send(e);

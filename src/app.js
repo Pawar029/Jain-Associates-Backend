@@ -23,16 +23,16 @@ const corsOption = {
 };
 
 app.use(cors(corsOption));
-
+  
 const DB = 'mongodb://SunilPawar:SunilPawar0123@jainandassociates-shard-00-00.0jchs.mongodb.net:27017,jainandassociates-shard-00-01.0jchs.mongodb.net:27017,jainandassociates-shard-00-02.0jchs.mongodb.net:27017/jain_associate?ssl=true&replicaSet=atlas-5y42xk-shard-0&authSource=admin&retryWrites=true&w=majority&appName=JainAndAssociates';
-
+ 
 mongoose.connect(DB, {
     useUnifiedTopology:true,
 }).then(() => {
     console.log(`Connection Done`);
 }).catch((err) => console.log(`Connection  Not Done`));
 const port = process.env.PORT || 8000;
-
+    
 app.use(express.json());
 
 app.get("/",(req,res) => {

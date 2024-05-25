@@ -1,5 +1,6 @@
 
 const beam = require("../models/beam");
+const clientlogin = require("../models/loginClient");
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
@@ -21,8 +22,15 @@ function pushBeamController(req, res) {
 async function getBeamController(req,res) {
     // console.log("hello");
     try{
-        const data = await beam.find();
-        res.send(data);
+        const user = await clientlogin.findOne();
+        if(user){
+            const data = await beam.find({
+                clientName: user.name,
+                clientNumber: user.number
+            });
+            res.send(data);
+        }
+        
     }catch(e){
         res.send("show error");
         res.send(e);

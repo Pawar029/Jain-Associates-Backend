@@ -1,5 +1,6 @@
 
 const wall = require("../models/wall");
+const clientlogin = require("../models/loginClient");
 const resultWall = require("../models/resultWall");
 const express = require("express");
 const bodyParser = require('body-parser');
@@ -22,8 +23,15 @@ function pushWallController(req, res) {
 async function getWallController(req,res) {
     // console.log("hello");
     try{
-        const data = await wall.find();
-        res.send(data);
+        const user = await clientlogin.findOne();
+        if(user){
+            const data = await wall.find({
+                clientName: user.name,
+                clientNumber: user.number
+            });
+            res.send(data);     
+        }
+        // res.send("error")  
     }catch(e){
         res.send("show error");
         res.send(e);
@@ -79,7 +87,13 @@ function calculateResult(data){
 
 async function updateWallResultController(req,res) {
     try{
-        const data = await wall.find();
+        const user = await clientlogin.findOne();
+
+        const data = await wall.find({
+            clientName: user.name,
+            clientNumber: user.number
+        });
+        // const data = await wall.find();
         console.log("here is data ",data);
         const ans = calculateResult(data);
 

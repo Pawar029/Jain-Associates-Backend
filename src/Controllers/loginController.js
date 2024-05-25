@@ -48,7 +48,7 @@ async function pushLoginController(req, res) {
         // User found, save login details
         const login = new clientlogin(req.body);
         await login.save();
-  
+        console.log("new User logedin ",login)
         res.json({ user, success: true });
     } catch (error) {
         console.error("Error during login:", error);
@@ -60,13 +60,16 @@ async function getLoginController(req,res) {
     // console.log("hello");
     // res.send("okk");
     try{
-        const number = req.query.number;
-        const user = await clientlogin.findOne({ number:number });
+        // const number = req.query.number;
+        const user = await clientlogin.findOne();
+        // console.log("Sunil ",user)
         // const user = await clientlogin.find();
-        res.json({loggedIn:true ,user});
+        res.status(200).send(user);
+        // res.json({loggedIn:true ,user});
     }catch(e){
         // res.send("show error");
-        res.json({loggedIn:false,e});
+        res.status(400).send(e);
+        // res.json({loggedIn:false,e});
     }
 }
 
@@ -83,21 +86,33 @@ async function getLoginController(req,res) {
 // }
 
 async function logoutController(req, res) {
-    try {
+    // try {
     //   const userId = req.params.id;
     //   if (!userId) {
     //     return res.status(400).send("User ID is missing");
     //   }
     //   const deletedUser = await clientlogin.findOneAndDelete({number:userId});
-      const deletedUser = await clientlogin.findOneAndDelete();
-      if (!deletedUser) {
-        return res.status(404).send("User not found");
+    //   const deletedUser = await clientlogin.findOneAndDelete();
+    //   if (!deletedUser) {
+    //     return res.status(404).send("User not found");
+    //   }
+    //   res.send({ success: true,deletedUser }); // Sending a success response
+    // } catch (error) {
+    //   console.error("Error occurred while logging out:", error);
+    //   res.status(500).send(`error : ${error.message}`);
+    // } 
+
+    try{
+      const deleteddata = await clientlogin.findByIdAndDelete(req.params.id);
+      if(!req.params.id){
+          return res.status(400).send();
       }
-      res.send({ success: true,deletedUser }); // Sending a success response
-    } catch (error) {
-      console.error("Error occurred while logging out:", error);
-      res.status(500).send(`error : ${error.message}`);
-    } 
+      res.status(200).send(deleteddata);
+      console.log(deleteddata);
+  }catch(e){
+      res.send("show error");
+      res.status(500).send(e);
+  }  
   }
   
   

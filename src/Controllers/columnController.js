@@ -1,5 +1,6 @@
 
 const column = require("../models/column");
+const clientlogin = require("../models/loginClient");
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
@@ -21,8 +22,14 @@ function pushColumnController(req, res) {
 async function getColumnController(req,res) {
     // console.log("hello");
     try{
-        const data = await column.find();
-        res.send(data);
+        const user = await clientlogin.findOne();
+        if(user){
+            const data = await column.find({
+                clientName: user.name,
+                clientNumber: user.number
+            });
+            res.send(data);
+        }
     }catch(e){
         res.send("show error");
         res.send(e);

@@ -61,7 +61,7 @@ async function getRegisterController(req,res) {
     try{
         const data = await clientregister.find();
         res.send(data);
-        console.log(data);
+        // console.log(data);
     }catch(e){
         res.send("show error");
         res.send(e);

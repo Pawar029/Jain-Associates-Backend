@@ -9,6 +9,14 @@ const validator = require("validator");
 
 const slabSchema = new mongoose.Schema({
 
+    clientName : {
+        type:String,
+        required:true
+    },
+    clientNumber : {
+        type:Number,
+        required:true
+    },
     name : {
         type:String,
         required:true
