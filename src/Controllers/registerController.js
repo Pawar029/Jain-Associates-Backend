@@ -57,7 +57,6 @@ async function getOneRegisterController(req,res) {
 }
 
 async function getRegisterController(req,res) {
-    console.log("hello");
     try{
         const data = await clientregister.find();
         res.send(data);
@@ -65,11 +64,24 @@ async function getRegisterController(req,res) {
     }catch(e){
         res.send("show error");
         res.send(e);
-    }
- 
-  
+    } 
+}
+
+async function deleteRegisterController(req,res){
+    try{
+        const deleteddata = await clientregister.findByIdAndDelete(req.params.id);
+        if(!req.params.id){
+            return res.status(400).send();
+        }
+        res.status(200).send(deleteddata);
+        console.log(deleteddata);
+    }catch(e){
+        res.send("show error");
+        res.status(500).send(e);
+    } 
 }
 
 module.exports.pushRegisterController = pushRegisterController;
 module.exports.getRegisterController = getRegisterController;
+module.exports.deleteRegisterController = deleteRegisterController;
 module.exports.getOneRegisterController = getOneRegisterController;

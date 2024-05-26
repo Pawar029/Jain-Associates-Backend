@@ -8,6 +8,7 @@ const wallApi = require("./Controllers/wallController");
 const footingApi = require("./Controllers/footingController");
 const stairApi = require("./Controllers/stairController");
 const resultApi = require("./Controllers/resultController");
+const finalApi = require("./Controllers/finalResultController");
 const express = require("express");
 const mongoose = require('mongoose');
 // require("./db/conn");
@@ -41,6 +42,8 @@ app.get("/",(req,res) => {
 app.post("/register",registerationApi.pushRegisterController);
 app.get("/oneregister",registerationApi.getOneRegisterController);
 app.get("/register",registerationApi.getRegisterController);
+app.delete("/register/:id",registerationApi.deleteRegisterController);
+
 
 app.post("/login",loginApi.pushLoginController);
 app.get("/profile",loginApi.getLoginController);
@@ -88,8 +91,11 @@ app.patch("/resultfooting",resultApi.pushFootingResultController);
 app.get("/resultfooting",resultApi.getFootingResultController);
 app.patch("/resultstair",resultApi.pushStairResultController);
 app.get("/resultstair",resultApi.getStairResultController);
+
+app.patch("/finalresult",finalApi.pushfinalResultController);
+app.get("/finalresult",finalApi.getfinalResultController);
 // app.post("/register",(req,res)=>{
-//     res.send(req.body); 
+//     res.send(req.body);  
     // const user = new clientregister(req.body);
     // user.save().then(() => {
     //     res.send(user);
