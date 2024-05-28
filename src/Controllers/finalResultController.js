@@ -61,8 +61,8 @@ async function pushfinalResultController(req,res){
             }else{
                 myMap.set(k,data[k]);
             }
-        }
-    }
+        } 
+    }   
 
     // For Column Steel
     if(columnData.columnSteel){
@@ -100,7 +100,7 @@ async function pushfinalResultController(req,res){
             }else{
                 myMap.set(k,data[k]);
             }   
-        }   
+        }    
     }
     // Convert the Map to a plain object
     const dataObject = Object.fromEntries(myMap);
